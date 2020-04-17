@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+
+
+void leerPila2 (Pila *p);
+
+void buscarMenor(Pila *p, int *i);
+
+int main()
+{
+
+    //buscar el menor elemento de una pila con funciones y punteros.
+    int menor = 0;
+    Pila pilita;
+    inicpila(&pilita);
+
+    leerPila2(&pilita);
+    buscarMenor(&pilita, &menor);
+    printf("\nEl menor es: %d", menor);
+
+    return 0;
+}
+
+void leerPila2 (Pila *p) {
+    char letra = '*';
+    do {
+            printf("ingrese la pila dada\n");
+            leer(p);
+            fflush(stdin);
+            printf("si desea continuar ingrese s:");
+            scanf("%c", &letra);
+    } while (letra == 's');
+
+
+}
+
+void buscarMenor(Pila *p, int *i) {
+    Pila aux, aux2;
+    inicpila(&aux);
+    inicpila(&aux2);
+    apilar(&aux, desapilar(p));
+    while (!pilavacia(p)) {
+        if (tope(p) < tope(&aux)) {
+            apilar(&aux, tope(p));
+        } else {
+            apilar(&aux2, desapilar(p));
+        }
+
+    }
+    *i = tope(&aux);
+}
+
