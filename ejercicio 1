@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+Pila leerpila(Pila p);
+void leerPila2(Pila *p);
+
+int main()
+{
+    
+    //ejercicio 1 de funciones en c: hacer una funcion que permita ingresar los elementos en una pila, tantos
+    //como quiera el usuario, hacerlo con punteros y sin ellos.
+    
+    
+    Pila pilita;
+    
+    inicpila(&pilita);
+    // descomentar la funcion que se quiera utilizar, con puntero o sin el.
+    
+    //pilita = leerpila(pilita);
+    //leerPila2(&pilita);
+    mostrar(&pilita);
+
+    return 0;
+}
+
+Pila leerpila(Pila p) {
+    char letra = 'c';
+    do {
+            printf("ingrese la pila dada\n");
+            leer(&p);
+            fflush(stdin);
+            printf("si desea continuar ingrese s:");
+            scanf("%c", &letra);
+    } while (letra == 's');
+    return p;
+}
+
+//lo mismo pero con punteros
+
+void leerPila2 (Pila *p) {
+    char letra = '*';
+    do {
+            printf("ingrese la pila dada\n");
+            leer(p);
+            fflush(stdin);
+            printf("si desea continuar ingrese s:");
+            scanf("%c", &letra);
+    } while (letra == 's');
+
+
+}
