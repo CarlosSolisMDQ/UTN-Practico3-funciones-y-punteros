@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pila.h"
+
+Pila leerpila(Pila p);
+Pila copiarPila(Pila p);
+void leerPila2 (Pila *p);
+void copiarPila2(Pila *a, Pila *b);
+
+
+
+int main()
+{
+    //hacer una funcion que pase todos los elementos de una pila a otra.
+
+    Pila pilita, pilota;
+    inicpila(&pilita);
+    inicpila(&pilota);
+    
+    //para ver las funciones sin punteros cambiar los comentarios.
+
+    //pilita = leerpila(pilita);
+    leerPila2(&pilita);
+
+    //pilota = copiarPila(pilita);
+    copiarPila2(&pilita, &pilota);
+
+    mostrar(&pilita);
+    mostrar(&pilota);
+
+    return 0;
+}
+
+Pila leerpila(Pila p) {
+    char letra = 'c';
+    do {
+            printf("ingrese la pila dada\n");
+            leer(&p);
+            fflush(stdin);
+            printf("si desea continuar ingrese s:");
+            scanf("%c", &letra);
+    } while (letra == 's');
+    return p;
+}
+
+Pila copiarPila(Pila p) {
+    Pila aux;
+    inicpila(&aux);
+    while (!pilavacia(&p)) {
+        apilar(&aux, desapilar(&p));
+    }
+    return aux;
+}
+
+void leerPila2 (Pila *p) {
+    char letra = '*';
+    do {
+            printf("ingrese la pila dada\n");
+            leer(p);
+            fflush(stdin);
+            printf("si desea continuar ingrese s:");
+            scanf("%c", &letra);
+    } while (letra == 's');
+
+
+}
+
+void copiarPila2(Pila *a, Pila *b) {
+
+    while (!pilavacia(a)) {
+        apilar(b, desapilar(a));
+    }
+
+}
