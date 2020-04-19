@@ -1,0 +1,409 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <time.h>
+#include <windows.h>
+#include "pila.h"
+#include <math.h>
+
+/*
+
+Un chico muy amable en el foro de la UTN subio una plantilla para poder organizar todos los ejercicios en un solo ejecutable.
+Mis agradecimientos a el, lastima que no recuerdo el usuario del foro para darle credito aqui.
+
+WIP, Me faltan terminar 3 ejercicios.
+
+*/
+
+void leerPila2(Pila *p);
+void copiarPila2(Pila *a, Pila *b);
+void pasar_con_el_mismo_orden(Pila *a, Pila *b);
+int buscarMenor(Pila p);
+void eliminar_elemento(Pila *a, int num);
+void pasar_pila_a_ordenada(Pila a, Pila *b);
+void insertar_elemento_en_ordenada(Pila *a, int num);
+void ordenamiento_por_insercion(Pila *a, Pila *b);
+
+
+
+int main()
+{
+
+    int ejercicio;
+    char control;
+    Pila pilita, pilota;
+    inicpila(&pilita);
+    inicpila(&pilota);
+    int menor = 0;
+
+
+    do
+    {
+
+        system("cls");
+        printf("Escriba el numero del ejercicio al que quiere ir:\n");
+        printf("Ejercicio 1: Cargar pila\n");
+        printf("Ejercicio 2: Pasar todos los datos de una pila a otra\n");
+        printf("Ejercicio 3: Pasar todos los datos de una pila a otra pero conservando el orden\n");
+        printf("Ejercicio 4: Encontrar el menor, eliminarlo y retornarlo\n");
+        printf("Ejercicio 5: Pasar todos los datos de una pila a otra y que quede ordenada (por seleccion)\n");
+        printf("Ejercicio 6: Insertar un valor a una pila ordenada, manteniendo su orden\n");
+        printf("Ejercicio 7: Pasar todos los datos de una pila a otra y que quede ordenada (por insercion)\n");
+        printf("Ejercicio 8: Sumar y retornar el tope y el anterior de una pila, sin borrarle datos\n");
+        printf("Ejercicio 9: Calcular el promedio de una pila\n");
+        printf("Ejercicio 10: Recibir elementos de un solo digito y convertir toda la pila en un numero decimal\n");
+
+        scanf("%i", &ejercicio);
+
+        switch (ejercicio)
+        {
+        case 1:
+
+                system("cls");
+
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("1_ Hacer una funcion que permita ingresar varios elementos a una Pila, tantos como quiera el usuario.\n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+                inicpila(&pilita);
+                inicpila(&pilota);
+
+                leerPila2(&pilita);
+                mostrar(&pilita);
+
+                break;
+
+            case 2:
+
+                system("cls");
+
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("2_ Hacer una funcion que pase todos los elementos de una pila a otra.\n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+
+                inicpila(&pilita);
+                inicpila(&pilota);
+                leerPila2(&pilita);
+                copiarPila2(&pilita, &pilota);
+
+                printf("\nPila a:\n");
+                mostrar(&pilita);
+                printf("\nPila b:\n");
+                mostrar(&pilota);
+
+
+                break;
+
+            case 3:
+
+                system("cls");
+
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("3_ Hacer una funcion que pase todos los elementos de una pila a otra, pero conservando el orden.\n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+
+
+
+                inicpila(&pilita);
+                inicpila(&pilota);
+                leerPila2(&pilita);
+
+
+                printf("\npila a:\n");
+                mostrar(&pilita);
+
+                pasar_con_el_mismo_orden(&pilita, &pilota);
+
+
+                printf("\npila b:\n");
+                mostrar(&pilota);
+
+
+
+                break;
+
+            case 4:
+
+                system("cls");
+
+                printf("------------------------------------------------------------------------------------------------------\n");
+                printf("4_ Hacer una funcion que encuentre el menor elemento de una pila y lo retorne eliminandolo de la pila\n");
+                printf("------------------------------------------------------------------------------------------------------\n");
+
+
+
+                inicpila(&pilita);
+                inicpila(&pilota);
+
+
+                leerPila2(&pilita);
+                menor = buscarMenor(pilita);
+                eliminar_elemento(&pilita, menor);
+
+                printf("\nPila a con el elemento menor eliminado\n");
+
+                mostrar(&pilita);
+
+
+                printf("\nEl menor es: %d", menor);
+
+
+
+                break;
+
+            case 5:
+
+                system("cls");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("5_ Hacer una funcion que pase los elementos de una pila a otra, de manera que se genere una nueva pila ordenada.\n");
+                printf("Usar la funcion del ejercicio 4. (Ordenamiento por seleccion)\n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+
+                inicpila(&pilita);
+                inicpila(&pilota);
+
+                leerPila2(&pilita);
+
+                printf("\n pila original:\n");
+
+                mostrar(&pilita);
+
+                pasar_pila_a_ordenada(pilita, &pilota);
+
+
+
+                printf("\n pila b ordenada: \n");
+
+                mostrar(&pilota);
+
+
+                break;
+
+            case 6:
+
+                system("cls");
+
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("6_ Hacer una funcion que inserte en una pila ordenada un nuevo elemento, conservando el orden de esta. \n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+                inicpila(&pilita);
+                inicpila(&pilota);
+                int num = 0;
+
+                printf("\nIngresar la pila:\n");
+
+                leerPila2(&pilita);
+
+                printf("\nahora el elemento a ingresar:\n");
+
+
+                scanf("%d", &num);
+
+                insertar_elemento_en_ordenada(&pilita, num);
+
+                mostrar(&pilita);
+
+
+
+                break;
+
+            case 7:
+
+                system("cls");
+
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("7_ Hacer una funcion que pase los elementos de una pila a otra, de manera que se genere una nueva pila ordenada.\n");
+                printf("Usar la funcion del ejercicio 6.  (Ordenamiento por insercion)\n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+                inicpila(&pilita);
+                inicpila(&pilota);
+
+                leerPila2(&pilita);
+
+                ordenamiento_por_insercion(&pilita, &pilota);
+
+                mostrar(&pilota);
+
+
+                break;
+
+            case 8:
+
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("8_ Hacer una funcion que sume y retorne los dos primeros elementos de una pila (tope y anterior), sin alterar su contenido.\n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+
+                break;
+
+            case 9:
+
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("9_ Hacer una funcion que calcule el promedio de los elementos de una pila,\n");
+                printf("para ello hacer tambien una funcion que calcule la suma, otra para la cuenta y otra que divida.\n");
+                printf("En total son cuatro funciones, y la funcion que calcula el promedio invoca a las otras 3.\n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+
+                break;
+
+            case 10:
+
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+                printf("10_ Hacer una funcion que reciba una pila con numeros de un solo digito (es responsabilidad de quien usa el programa)\n");
+                printf("y que transforme esos digitos en un número decimal.\n");
+                printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+
+                break;
+
+            default:
+
+                printf("Ese ejercicio no existe \n");
+
+            }
+
+        printf("Quiere ver otro ejercicio? s/n\n");
+        fflush(stdin);
+        printf("%c\n", control = getch());
+
+    }
+    while(control == 's');
+
+    return 0;
+}
+
+void leerPila2(Pila *p) {
+    char letra = '*';
+    do {
+            system("cls");
+            printf("\nIngrese la pila:\n\n");
+            leer(p);
+            fflush(stdin);
+            printf("Si desea continuar pulse cualquier tecla, si no desea continuar ingrese n:");
+
+            scanf("%c", &letra);
+
+    } while (letra != 'n');
+}
+
+void copiarPila2(Pila *a, Pila *b) {
+
+    while (!pilavacia(a)) {
+        apilar(b, desapilar(a));
+    }
+
+}
+
+void pasar_con_el_mismo_orden(Pila *a, Pila *b){
+    Pila aux;
+    inicpila(&aux);
+
+    //es trampa pero me gusta mas.
+    *b = *a;
+    /*
+    while (!pilavacia(a)) {
+        apilar(&b, desapilar(a));
+        apilar(b, desapilar(&aux));
+    }
+    */
+}
+
+int buscarMenor(Pila p) {
+    Pila aux, aux2;
+    inicpila(&aux);
+    inicpila(&aux2);
+    apilar(&aux, desapilar(&p));
+    while (!pilavacia(&p)) {
+        if (tope(&p) < tope(&aux)) {
+            apilar(&aux, tope(&p));
+        } else {
+            apilar(&aux2, desapilar(&p));
+        }
+
+    }
+    return tope(&aux);
+
+
+}
+
+void eliminar_elemento(Pila *a, int num){
+    Pila borrado, aux;
+    inicpila(&borrado);
+    inicpila(&aux);
+
+    while(!pilavacia(a) && tope(a)!= num){
+        apilar(&aux, desapilar(a));
+    }
+
+    if(!pilavacia(a)){
+        apilar(&borrado, desapilar(a));
+    }
+    while (!pilavacia(&aux)) {
+        apilar(a, desapilar(&aux));
+    }
+}
+
+void pasarOrdenada(Pila a, Pila *b){
+    Pila aux;
+    inicpila(&aux);
+    //int men = 0;
+        while(!pilavacia(&a)){
+            apilar(b, buscarMenor(a));
+            eliminar_elemento(&a, buscarMenor(a));
+        }
+
+}
+
+void pasar_pila_a_ordenada(Pila a, Pila *b){
+    while (!pilavacia(&a)){
+        int menor = buscarMenor(a);
+        apilar(b, menor);
+        eliminar_elemento(&a, menor);
+
+    }
+}
+
+void insertar_elemento_en_ordenada(Pila *a, int num){
+    Pila aux;
+    inicpila(&aux);
+
+    while (!pilavacia(a) && tope(a) > num) {
+        apilar(&aux, desapilar(a));
+    }
+
+    apilar(a, num);
+
+    while (!pilavacia(a)) {
+        apilar(&aux, desapilar(a));
+    }
+    while (!pilavacia(&aux)){
+        apilar(a, desapilar(&aux));
+    }
+
+
+}
+
+void ordenamiento_por_insercion(Pila *a, Pila *b){
+    while (!pilavacia(a)){
+
+        insertar_elemento_en_ordenada(b, desapilar(a));
+
+        /*
+        
+        este tengo que reconocer que me costo un huevo y no me quedo otra que buscar en internet
+        me hizo reformar la funcion anterior porque no usaba punteros.
+        
+        */
+
+    }
+
+}
+
+
+
