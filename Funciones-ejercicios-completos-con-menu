@@ -6,14 +6,7 @@
 #include "pila.h"
 #include <math.h>
 
-/*
 
-Un chico muy amable en el foro de la UTN subio una plantilla para poder organizar todos los ejercicios en un solo ejecutable.
-Mis agradecimientos a el, lastima que no recuerdo el usuario del foro para darle credito aqui.
-
-WIP, Me faltan terminar 3 ejercicios.
-
-*/
 
 void leerPila2(Pila *p);
 void copiarPila2(Pila *a, Pila *b);
@@ -23,6 +16,13 @@ void eliminar_elemento(Pila *a, int num);
 void pasar_pila_a_ordenada(Pila a, Pila *b);
 void insertar_elemento_en_ordenada(Pila *a, int num);
 void ordenamiento_por_insercion(Pila *a, Pila *b);
+void retornar_tope_y_anterior(Pila *pila,int *retorno);
+int promedio(Pila *pila);
+int cuenta(Pila pila);
+int suma(Pila pila);
+int division(int suma, int cuenta);
+int pila_a_numero(Pila *pila);
+
 
 
 
@@ -146,8 +146,8 @@ int main()
 
                 mostrar(&pilita);
 
-
-                printf("\nEl menor es: %d", menor);
+                system("cls");
+                printf("\n\nEl menor es: %d\n\n", menor);
 
 
 
@@ -227,6 +227,8 @@ int main()
 
                 ordenamiento_por_insercion(&pilita, &pilota);
 
+                system("cls");
+
                 mostrar(&pilota);
 
 
@@ -239,6 +241,17 @@ int main()
                 printf("-----------------------------------------------------------------------------------------------------------------------\n");
 
 
+                int retorno = 0;
+                Pila pila;
+                inicpila(&pila);
+                leerPila2(&pila);
+                mostrar(&pila);
+                retornar_tope_y_anterior(&pila, &retorno);
+
+                system("cls");
+                printf("\n\nla suma de los dos ultimos elementos es: %d\n\n", retorno);
+                mostrar(&pila);
+
                 break;
 
             case 9:
@@ -250,6 +263,16 @@ int main()
                 printf("-----------------------------------------------------------------------------------------------------------------------\n");
 
 
+                int promediofinal = 0;
+
+
+                leerPila2(&pilita);
+                promediofinal = promedio(&pilita);
+
+                system("cls");
+
+                printf("\n\nel promedio es: %d\n\n", promediofinal);
+
                 break;
 
             case 10:
@@ -258,6 +281,13 @@ int main()
                 printf("10_ Hacer una funcion que reciba una pila con numeros de un solo digito (es responsabilidad de quien usa el programa)\n");
                 printf("y que transforme esos digitos en un número decimal.\n");
                 printf("-----------------------------------------------------------------------------------------------------------------------\n");
+
+
+                leerPila2(&pilita);
+                int result = pila_a_numero(&pilita);
+
+                system("cls");
+                printf("\n\nel numero unificado de la pila es: %d\n\n", result);
 
 
                 break;
@@ -395,14 +425,103 @@ void ordenamiento_por_insercion(Pila *a, Pila *b){
         insertar_elemento_en_ordenada(b, desapilar(a));
 
         /*
-        
+
         este tengo que reconocer que me costo un huevo y no me quedo otra que buscar en internet
         me hizo reformar la funcion anterior porque no usaba punteros.
-        
+
         */
 
     }
 
+}
+
+
+
+void retornar_tope_y_anterior(Pila *pila,int *retorno){
+    Pila aux;
+    inicpila(&aux);
+
+    for (int i = 0; i < 2; i++){
+        *retorno += tope(pila);
+        apilar(&aux, desapilar(pila));
+
+    }
+    for (int i = 0; i < 2; i++){
+        apilar(pila, desapilar(&aux));
+    }
+
+}
+
+int promedio(Pila *pila){
+
+    /*
+    fue problematico la ensalada de referencias de estas funciones,
+    dado que la llamada de las subfunciones tambien la tuve que hacer llamando a la pila con el *
+    Si no las pasaba como puntero no me funcionaban.
+    */
+
+    int cuenta1 = 0;
+    int suma1 = 0;
+    float result = 0;
+    cuenta1 = cuenta(*pila);
+    suma1 = suma(*pila);
+    result = division(suma1, cuenta1);
+    return result;
+}
+
+int cuenta(Pila pila){
+    Pila aux;
+    inicpila(&aux);
+    int counter = 0;
+    while (!pilavacia(&pila)){
+        apilar(&aux, desapilar(&pila));
+        counter++;
+    }
+    while(!pilavacia(&aux)){
+        apilar(&pila, desapilar(&aux));
+    }
+    return counter;
+}
+
+int suma(Pila pila){
+    Pila aux;
+    inicpila(&aux);
+    int suma3 = 0;
+    while (!pilavacia(&pila)){
+        suma3 += tope(&pila);
+        apilar(&aux, desapilar(&pila));
+
+    }
+    while(!pilavacia(&aux)){
+        apilar(&pila, desapilar(&aux));
+    }
+    return suma3;
+}
+
+int division(int suma, int cuenta){
+    int result = 0;
+    result = suma/cuenta;
+    return result;
+
+}
+
+int pila_a_numero(Pila *pila){
+    Pila aux;
+    inicpila(&aux);
+
+    int digitos = cuenta(*pila);
+    int aux1 = 1;
+    int num = 0;
+    int total = 0;
+    for (int i = 0; i < digitos; i++){
+
+        num = tope(pila);
+        total += num * aux1;
+
+        apilar(&aux, desapilar(pila));
+        aux1 = aux1 * 10;
+    }
+    return total;
 }
 
 
